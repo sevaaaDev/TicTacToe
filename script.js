@@ -19,7 +19,8 @@ function Gameboard() {
 }
 
 function gameController() {
-  let board = Gameboard()
+  const board = Gameboard()
+  const display = displayController()
 
   const players = [{
     name: 'Player 1',
@@ -37,14 +38,14 @@ function gameController() {
 
   const printNextRound = () => {
     console.table(board.getBoard())
-    return `${currentPlayer.mark}'s Turn`
+    display.turn(currentPlayer.mark)
   }
 
   const playRound = (row, col) => {
     console.log(board.addMark(row, col, currentPlayer.mark))
     console.log('success')
     currentPlayer = switchCurrPlayer()
-    console.log(printNextRound())
+    printNextRound()
   }
 
   console.log(printNextRound())
@@ -70,14 +71,19 @@ function inputController() {
 
 function displayController() {
   const htmlElement = {
-    cells: document.querySelectorAll('[data-row]')
+    cells: document.querySelectorAll('[data-row]'),
+    playerTurn: document.querySelector('.player')
   }
   
   const mark = (index, currentPlayer) => {
     htmlElement.cells[index].innerText = `${currentPlayer.mark}`
   }
 
-  return {htmlElement, mark}
+  const turn = (currentPlayer) => {
+    htmlElement.playerTurn.innerText = `${currentPlayer}'s Turn`
+  } 
+
+  return {htmlElement, mark, turn}
 }
 
 inputController()
