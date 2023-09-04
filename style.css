@@ -4,11 +4,16 @@
   box-sizing: border-box;
 }
 
+
+h1 {
+  text-align: center;
+  margin: 2rem;
+}
+
 main {
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 100svh;
+  flex-direction: column;
 }
 
 .gameboard {
@@ -28,4 +33,10 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.player {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 2rem;
 }
