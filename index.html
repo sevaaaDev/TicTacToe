@@ -21,7 +21,16 @@
         <div data-row="2" data-col="1"></div>
         <div data-row="2" data-col="2"></div>
       </div>
-      <p class="player">X's turn</p>
+      <p class="player"></p>
+      <dialog id="dialog">
+        <form>
+          <label for="name1">Player 1 Name</label>
+          <input type="text" name="p1" id="name1">
+          <label for="name2">Player 2 Name</label>
+          <input type="text" name="p2" id="name2">
+          <button type="submit" formmethod="dialog">Start</button>
+        </form>
+      </dialog>
     </main>
   </body>
 </html>
