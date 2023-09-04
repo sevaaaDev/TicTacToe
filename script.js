@@ -35,6 +35,13 @@ function gameController() {
   const board = Gameboard()
   const display = displayController()
 
+  const playerFactory = (name1 = players[0].name, name2 = players[1].name) => {
+    players[0].name = name1
+    players[1].name = name2
+    printNextRound()
+
+  }
+
   const players = [{
     name: 'Player 1',
     mark: 'X'
@@ -51,7 +58,7 @@ function gameController() {
 
   const printNextRound = () => {
     console.table(board.getBoard())
-    display.turn(currentPlayer.mark)
+    display.turn(currentPlayer.name)
   }
 
   const playRound = (row, col, index) => {
@@ -62,9 +69,8 @@ function gameController() {
     printNextRound()
   }
 
-  printNextRound()
 
-  return {playRound, getCurrentPlayer}
+  return {playRound, getCurrentPlayer, playerFactory}
 }
 
 
@@ -80,14 +86,23 @@ function inputController() {
   display.htmlElement.cells.forEach(function(cell, index) {
     cell.addEventListener('click', addMark.bind(null, cell, index))
   })
-  
+
+  display.htmlElement.p1name.addEventListener('input', () => {
+    game.playerFactory(display.htmlElement.p1name.value)
+  })
+
+  display.htmlElement.p2name.addEventListener('input', () => {
+    game.playerFactory(display.htmlElement.p1name.value, display.htmlElement.p2name.value)
+  })
 }
 
 
 function displayController() {
   const htmlElement = {
     cells: document.querySelectorAll('[data-row]'),
-    playerTurn: document.querySelector('.player')
+    playerTurn: document.querySelector('.player'),
+    p1name: document.getElementById('name1'),
+    p2name: document.getElementById('name2'),
   }
   
   const mark = (index, currentPlayer) => {
@@ -103,3 +118,4 @@ function displayController() {
 
 
 inputController()
+window.onload = () => dialog.showModal()
