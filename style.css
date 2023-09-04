@@ -14,13 +14,18 @@ main {
 .gameboard {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   width: 80%;
   height: 80vw;
   max-width: 500px;
   max-height: 500px;
 }
 
-div {
+.gameboard div {
   background-color: #ddd;
   border: 1px solid black;
+  font-size: clamp(2rem, 10vw, 5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
