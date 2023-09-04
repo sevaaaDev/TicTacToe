@@ -40,3 +40,24 @@ main {
   font-weight: bold;
   margin: 2rem;
 }
+
+/* === Dialog === */
+
+dialog::backdrop {
+  background-color: #fff;
+}
+
+dialog {
+  margin: auto;
+  padding: 1rem;
+  border: none;
+}
+
+dialog form label, dialog form button {
+  display: block;
+  margin: 1rem auto 0;
+}
+
+dialog input {
+  width: 100%;
+}
