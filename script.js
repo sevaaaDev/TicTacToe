@@ -31,6 +31,8 @@ function gameController() {
 
   let currentPlayer = players[0]
 
+  const getCurrentPlayer = () => currentPlayer
+
   const switchCurrPlayer = () => currentPlayer === players[0] ? players[1] : players[0]
 
   const printNextRound = () => {
@@ -47,8 +49,35 @@ function gameController() {
 
   console.log(printNextRound())
 
-  return {playRound}
+  return {playRound, getCurrentPlayer}
 }
 
-const game = gameController()
+function inputController() {
+  const game = gameController()
 
+  const display = displayController()
+  
+  const addMark = (cell, index) => {
+    display.mark(index, game.getCurrentPlayer())
+    game.playRound(cell.dataset.row, cell.dataset.col)
+  }
+
+  display.htmlElement.cells.forEach(function(cell, index) {
+    cell.addEventListener('click', addMark.bind(null, cell, index))
+  })
+  
+}
+
+function displayController() {
+  const htmlElement = {
+    cells: document.querySelectorAll('[data-row]')
+  }
+  
+  const mark = (index, currentPlayer) => {
+    htmlElement.cells[index].innerText = `${currentPlayer.mark}`
+  }
+
+  return {htmlElement, mark}
+}
+
+inputController()
