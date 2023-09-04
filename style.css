@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100svh;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 80%;
+  height: 80vw;
+  max-width: 500px;
+  max-height: 500px;
+}
+
+div {
+  background-color: #ddd;
+  border: 1px solid black;
+}
