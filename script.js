@@ -39,7 +39,7 @@ function gameController() {
     players[0].name = name1
     players[1].name = name2
     printNextRound()
-
+    
   }
 
   const players = [{
@@ -55,10 +55,10 @@ function gameController() {
   const getCurrentPlayer = () => currentPlayer
 
   const switchCurrPlayer = () => currentPlayer === players[0] ? players[1] : players[0]
-
+  
   const printNextRound = () => {
     console.table(board.getBoard())
-    display.turn(currentPlayer.name)
+    display.turn(currentPlayer)
   }
 
   const playRound = (row, col, index) => {
@@ -69,6 +69,7 @@ function gameController() {
     printNextRound()
   }
 
+  printNextRound()
 
   return {playRound, getCurrentPlayer, playerFactory}
 }
@@ -110,7 +111,7 @@ function displayController() {
   }
 
   const turn = (currentPlayer) => {
-    htmlElement.playerTurn.innerText = `${currentPlayer}'s Turn`
+    htmlElement.playerTurn.innerText = `${currentPlayer.name}'s Turn (${currentPlayer.mark})`
   } 
 
   return {htmlElement, mark, turn}
