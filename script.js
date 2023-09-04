@@ -1,3 +1,5 @@
+"use strict"
+
 function Gameboard() {
   let board = []
 
@@ -8,15 +10,26 @@ function Gameboard() {
     }
   }
 
+  const checkCell = (row, col) => {
+    if (board[row][col] === '') {
+      console.log(board[row][col])
+      console.log({row, col})
+      console.log('true')
+      return true
+    }
+  }
+
   const getBoard = () => board
 
   const addMark = (row, col, currentPlayer) => {
-    board[row].splice(col, 1, currentPlayer)
-    return `Add mark ${currentPlayer} to row ${row}, col ${col}`
+    if (checkCell(row, col)) {
+      board[row].splice(col, 1, currentPlayer)
+    }
   }
 
-  return {getBoard, addMark}
+  return {getBoard, addMark, checkCell}
 }
+
 
 function gameController() {
   const board = Gameboard()
@@ -41,17 +54,19 @@ function gameController() {
     display.turn(currentPlayer.mark)
   }
 
-  const playRound = (row, col) => {
-    console.log(board.addMark(row, col, currentPlayer.mark))
-    console.log('success')
+  const playRound = (row, col, index) => {
+    if (!board.checkCell(row, col)) return
+    board.addMark(row, col, currentPlayer.mark)
+    display.mark(index, currentPlayer)
     currentPlayer = switchCurrPlayer()
     printNextRound()
   }
 
-  console.log(printNextRound())
+  printNextRound()
 
   return {playRound, getCurrentPlayer}
 }
+
 
 function inputController() {
   const game = gameController()
@@ -59,8 +74,7 @@ function inputController() {
   const display = displayController()
   
   const addMark = (cell, index) => {
-    display.mark(index, game.getCurrentPlayer())
-    game.playRound(cell.dataset.row, cell.dataset.col)
+    game.playRound(cell.dataset.row, cell.dataset.col, index)
   }
 
   display.htmlElement.cells.forEach(function(cell, index) {
@@ -68,6 +82,7 @@ function inputController() {
   })
   
 }
+
 
 function displayController() {
   const htmlElement = {
@@ -85,5 +100,6 @@ function displayController() {
 
   return {htmlElement, mark, turn}
 }
+
 
 inputController()
