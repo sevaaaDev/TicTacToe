@@ -1,5 +1,8 @@
 "use strict"
 
+// TODO make a function that checks for winner
+// TODO make a function that restart the game
+
 function Gameboard() {
   let board = []
 
@@ -19,6 +22,10 @@ function Gameboard() {
     }
   }
 
+  const restart = () => {
+    board = board.map((row) => row.map((col) => col = ''))
+  }
+
   const getBoard = () => board
 
   const addMark = (row, col, currentPlayer) => {
@@ -27,7 +34,7 @@ function Gameboard() {
     }
   }
 
-  return {getBoard, addMark, checkCell}
+  return {getBoard, addMark, checkCell, restart}
 }
 
 
@@ -35,11 +42,10 @@ function gameController() {
   const board = Gameboard()
   const display = displayController()
 
-  const playerFactory = (name1 = players[0].name, name2 = players[1].name) => {
-    players[0].name = name1
-    players[1].name = name2
+  const playerFactory = (name1, name2) => {
+    players[0].name = name1 !== '' ? name1 : 'Player 1'
+    players[1].name = name2 !== '' ? name2 : 'Player 2'
     printNextRound()
-    
   }
 
   const players = [{
@@ -54,7 +60,13 @@ function gameController() {
 
   const getCurrentPlayer = () => currentPlayer
 
-  const switchCurrPlayer = () => currentPlayer === players[0] ? players[1] : players[0]
+  const switchCurrPlayer = () => {
+    if (currentPlayer === players[0]) {
+      currentPlayer = players[1]
+    } else {
+      currentPlayer = players[0]
+    }
+  }
   
   const printNextRound = () => {
     console.table(board.getBoard())
@@ -65,13 +77,24 @@ function gameController() {
     if (!board.checkCell(row, col)) return
     board.addMark(row, col, currentPlayer.mark)
     display.mark(index, currentPlayer)
-    currentPlayer = switchCurrPlayer()
+    switchCurrPlayer()
     printNextRound()
+  }
+
+  const restart = () => {
+    display.restart()
+    board.restart()
+    if (currentPlayer !== players[0]) {
+      switchCurrPlayer()
+      printNextRound()
+    }
+    display.htmlElement.p1name.value = ''
+    display.htmlElement.p2name.value = ''
   }
 
   printNextRound()
 
-  return {playRound, getCurrentPlayer, playerFactory}
+  return {playRound, getCurrentPlayer, playerFactory, restart}
 }
 
 
@@ -88,13 +111,11 @@ function inputController() {
     cell.addEventListener('click', addMark.bind(null, cell, index))
   })
 
-  display.htmlElement.p1name.addEventListener('input', () => {
-    game.playerFactory(display.htmlElement.p1name.value)
-  })
-
-  display.htmlElement.p2name.addEventListener('input', () => {
+  display.htmlElement.btnStart.addEventListener('click', () => {
     game.playerFactory(display.htmlElement.p1name.value, display.htmlElement.p2name.value)
   })
+
+  display.htmlElement.btnRestart.addEventListener('click', game.restart)
 }
 
 
@@ -102,21 +123,32 @@ function displayController() {
   const htmlElement = {
     cells: document.querySelectorAll('[data-row]'),
     playerTurn: document.querySelector('.player'),
+    dialog: document.querySelector('dialog'),
     p1name: document.getElementById('name1'),
     p2name: document.getElementById('name2'),
+    btnRestart: document.querySelector('.restart'),
+    btnStart: document.querySelector('[formmethod]')
   }
   
   const mark = (index, currentPlayer) => {
     htmlElement.cells[index].innerText = `${currentPlayer.mark}`
   }
-
+  
   const turn = (currentPlayer) => {
     htmlElement.playerTurn.innerText = `${currentPlayer.name}'s Turn (${currentPlayer.mark})`
   } 
 
-  return {htmlElement, mark, turn}
+  const restart = () => {
+    htmlElement.dialog.showModal()
+    for (let cell of htmlElement.cells) {
+      cell.innerText = ''
+    }
+  }
+
+  window.onload = () => htmlElement.dialog.showModal()
+  
+  return {htmlElement, mark, turn, restart}
 }
 
 
 inputController()
-window.onload = () => dialog.showModal()
