@@ -60,6 +60,37 @@ function gameController() {
 
   const getCurrentPlayer = () => currentPlayer
 
+  const checkWin = () => {
+    let gameboard = board.getBoard()
+    // [0]0 [0]1 [0]2
+    // [1]0 [1]1 [1]2
+    // [2]0 [2]1 [2]2
+
+    if (gameboard[0][0] === gameboard[1][1] && gameboard[1][1] === gameboard[2][2] && gameboard[0][0] !== '') {
+      console.log('win3')
+      return true
+    }
+    
+    if (gameboard[0][2] === gameboard[1][1] && gameboard[1][1] === gameboard[2][0] && gameboard[0][2] !== '') {
+      console.log('win3')
+      return true
+    }
+    
+    for (let i = 0; i < 3; i++) {
+      if (gameboard[i][0] === gameboard[i][1] && gameboard[i][1] === gameboard[i][2] && gameboard[i][0] !== '') {
+        console.log('win1')
+        return true
+      }
+    }
+    
+    for (let i = 0; i < 3; i++) {
+      if (gameboard[0][i] === gameboard[1][i] && gameboard[1][i] === gameboard[2][i] && gameboard[0][i] !== '') {
+        console.log('win2')
+        return true
+      }
+    }
+  }
+  
   const switchCurrPlayer = () => {
     if (currentPlayer === players[0]) {
       currentPlayer = players[1]
@@ -72,15 +103,19 @@ function gameController() {
     console.table(board.getBoard())
     display.turn(currentPlayer)
   }
-
+  
   const playRound = (row, col, index) => {
     if (!board.checkCell(row, col)) return
     board.addMark(row, col, currentPlayer.mark)
     display.mark(index, currentPlayer)
+    if (checkWin()) {
+      display.announceWinner(currentPlayer)
+      return true
+    }
     switchCurrPlayer()
     printNextRound()
   }
-
+  
   const restart = () => {
     display.restart()
     board.restart()
@@ -91,9 +126,9 @@ function gameController() {
     display.htmlElement.p1name.value = ''
     display.htmlElement.p2name.value = ''
   }
-
+  
   printNextRound()
-
+  
   return {playRound, getCurrentPlayer, playerFactory, restart}
 }
 
@@ -103,13 +138,22 @@ function inputController() {
 
   const display = displayController()
   
-  const addMark = (cell, index) => {
-    game.playRound(cell.dataset.row, cell.dataset.col, index)
+  function removeListener() {
+    display.htmlElement.cells.forEach(function(cell) {
+      cell.removeEventListener('click', addMark)
+    })
   }
 
-  display.htmlElement.cells.forEach(function(cell, index) {
-    cell.addEventListener('click', addMark.bind(null, cell, index))
+  function addMark(event) {
+    if (game.playRound(event.target.dataset.row, event.target.dataset.col, event.target.dataset.index)) {
+      removeListener()
+    }
+  }
+  
+  display.htmlElement.cells.forEach(function(cell) {
+    cell.addEventListener('click', addMark)
   })
+  
 
   display.htmlElement.btnStart.addEventListener('click', () => {
     game.playerFactory(display.htmlElement.p1name.value, display.htmlElement.p2name.value)
@@ -145,9 +189,13 @@ function displayController() {
     }
   }
 
+  const announceWinner = (currentPlayer) => {
+    htmlElement.playerTurn.innerText = `${currentPlayer.name} Won (${currentPlayer.mark})`
+  }
+
   window.onload = () => htmlElement.dialog.showModal()
   
-  return {htmlElement, mark, turn, restart}
+  return {htmlElement, mark, turn, restart, announceWinner}
 }
 
 
