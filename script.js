@@ -23,7 +23,7 @@ function Gameboard() {
   }
 
   const restart = () => {
-    board = board.map((row) => row.map((col) => col = ''))
+    board = board.map((row) => row.map(col => col = ''))
   }
 
   const getBoard = () => board
@@ -62,32 +62,32 @@ function gameController() {
 
   const checkWin = () => {
     let gameboard = board.getBoard()
-    // [0]0 [0]1 [0]2
-    // [1]0 [1]1 [1]2
-    // [2]0 [2]1 [2]2
-
     if (gameboard[0][0] === gameboard[1][1] && gameboard[1][1] === gameboard[2][2] && gameboard[0][0] !== '') {
       console.log('win3')
-      return true
+      return 'win'
     }
     
     if (gameboard[0][2] === gameboard[1][1] && gameboard[1][1] === gameboard[2][0] && gameboard[0][2] !== '') {
       console.log('win3')
-      return true
+      return 'win'
     }
     
     for (let i = 0; i < 3; i++) {
       if (gameboard[i][0] === gameboard[i][1] && gameboard[i][1] === gameboard[i][2] && gameboard[i][0] !== '') {
         console.log('win1')
-        return true
+        return 'win'
       }
     }
     
     for (let i = 0; i < 3; i++) {
       if (gameboard[0][i] === gameboard[1][i] && gameboard[1][i] === gameboard[2][i] && gameboard[0][i] !== '') {
         console.log('win2')
-        return true
+        return 'win'
       }
+    }
+
+    if (!((gameboard[0].includes('') || gameboard[1].includes('')) || gameboard[2].includes(''))) {
+      return 'draw'
     }
   }
   
@@ -108,8 +108,12 @@ function gameController() {
     if (!board.checkCell(row, col)) return
     board.addMark(row, col, currentPlayer.mark)
     display.mark(index, currentPlayer)
-    if (checkWin()) {
+    if (checkWin() === 'win') {
       display.announceWinner(currentPlayer)
+      return true
+    }
+    if (checkWin() === 'draw') {
+      display.announceDraw()
       return true
     }
     switchCurrPlayer()
@@ -123,8 +127,6 @@ function gameController() {
       switchCurrPlayer()
       printNextRound()
     }
-    display.htmlElement.p1name.value = ''
-    display.htmlElement.p2name.value = ''
   }
   
   printNextRound()
@@ -150,13 +152,11 @@ function inputController() {
     }
   }
   
-  display.htmlElement.cells.forEach(function(cell) {
-    cell.addEventListener('click', addMark)
-  })
-  
-
   display.htmlElement.btnStart.addEventListener('click', () => {
     game.playerFactory(display.htmlElement.p1name.value, display.htmlElement.p2name.value)
+    display.htmlElement.cells.forEach(function(cell) {
+      cell.addEventListener('click', addMark)
+    })
   })
 
   display.htmlElement.btnRestart.addEventListener('click', game.restart)
@@ -192,10 +192,14 @@ function displayController() {
   const announceWinner = (currentPlayer) => {
     htmlElement.playerTurn.innerText = `${currentPlayer.name} Won (${currentPlayer.mark})`
   }
+  
+  const announceDraw = () => {
+    htmlElement.playerTurn.innerText = `It's a draw`
+  }
 
   window.onload = () => htmlElement.dialog.showModal()
   
-  return {htmlElement, mark, turn, restart, announceWinner}
+  return {htmlElement, mark, turn, restart, announceWinner, announceDraw}
 }
 
 
