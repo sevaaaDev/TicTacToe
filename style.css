@@ -1,13 +1,22 @@
+:root, ::backdrop {
+  --primary-clr: #03B5AA;
+  --secondary-clr: #023436;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+body {
+  background-color: var(--primary-clr);
+  color: white;
+}
 
-h1 {
-  text-align: center;
-  margin: 2rem;
+
+header {
+  background-color: var(--secondary-clr);
 }
 
 main {
@@ -22,42 +31,84 @@ main {
   grid-template-rows: repeat(3, 1fr);
   width: 80%;
   height: 80vw;
-  max-width: 500px;
-  max-height: 500px;
+  max-width: 300px;
+  max-height: 300px;
 }
 
-.gameboard div {
-  background-color: #ddd;
-  border: 1px solid black;
-  font-size: clamp(2rem, 10vw, 5rem);
+.gameboard [data-index] {
+  background-color: #fff;
+  color: var(--secondary-clr);
+  border: 1px solid var(--primary-clr);
+  font-size: clamp(3rem, 10vw, 3.5rem);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.gameboard [data-index]:nth-child(1) {
+  border-radius: 1rem 0 0 0;
+}
+
+.gameboard [data-index]:nth-child(3) {
+  border-radius: 0 1rem 0 0;
+}
+
+.gameboard [data-index]:nth-child(7) {
+  border-radius: 0 0 0 1rem;
+}
+
+.gameboard [data-index]:nth-child(9) {
+  border-radius: 0 0 1rem 0;
+}
+
 .player {
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 10vw, 1.9rem);
   font-weight: bold;
+  text-align: center;
+  padding: 2rem;
+  margin: 0 0 2rem;
+}
+
+button {
+  font-size: 1.1rem;
+  padding: 1em 2em;
+  background-color: var(--secondary-clr);
+  border: none;
+  border-radius: 1rem;
   margin: 2rem;
+  color: white;
+}
+
+.win-row {
+  color: #FF715B;
 }
 
 /* === Dialog === */
 
 dialog::backdrop {
-  background-color: #fff;
+  background-color: var(--primary-clr);
 }
 
 dialog {
   margin: auto;
   padding: 1rem;
   border: none;
+  border-radius: 1rem;
+  background-color: var(--primary-clr);
 }
 
 dialog form label, dialog form button {
   display: block;
-  margin: 1rem auto 0;
+  margin: 1rem auto 5px;
 }
+
+dialog h1, dialog label {
+  color: white;
+} 
 
 dialog input {
   width: 100%;
+  padding: 5px 0;
+  border-radius: 5px;
+  border: none;
 }
