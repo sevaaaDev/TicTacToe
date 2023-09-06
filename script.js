@@ -1,8 +1,8 @@
-"use strict";
+// "use strict";
 
 // TODO Highlight winning mark
 
-function Gameboard() {
+const Gameboard = () => {
   let board = [];
 
   for (let i = 0; i < 3; i++) {
@@ -33,7 +33,48 @@ function Gameboard() {
   return { getBoard, addMark, checkCell, restart };
 }
 
-function gameController() {
+
+const displayController = () => {
+  const htmlElement = {
+    cells: document.querySelectorAll("[data-row]"),
+    playerTurn: document.querySelector(".player"),
+    p1name: document.getElementById("name1"),
+    p2name: document.getElementById("name2"),
+    btnRestart: document.querySelector(".restart"),
+    btnStart: document.querySelector("[formmethod]"),
+    playUi: document.querySelector('.play'),
+    menuUi: document.querySelector('.menu')
+  };
+
+  const mark = (index, currentPlayer) => {
+    htmlElement.cells[index].innerText = `${currentPlayer.mark}`;
+  };
+
+  const turn = (currentPlayer) => {
+    htmlElement.playerTurn.innerText = `${currentPlayer.name}'s Turn (${currentPlayer.mark})`;
+  };
+
+  const restart = () => {
+    htmlElement.playUi.classList.add('invisible');
+    htmlElement.menuUi.classList.remove('invisible');
+    for (let cell of htmlElement.cells) {
+      cell.innerText = "";
+    }
+  };
+
+  const announceWinner = (currentPlayer) => {
+    htmlElement.playerTurn.innerText = `${currentPlayer.name} Won (${currentPlayer.mark})`;
+  };
+
+  const announceDraw = () => {
+    htmlElement.playerTurn.innerText = `It's a draw`;
+  };
+
+  return { htmlElement, mark, turn, restart, announceWinner, announceDraw };
+}
+
+
+const gameController = () => {
   const board = Gameboard();
   const display = displayController();
 
@@ -143,13 +184,14 @@ function gameController() {
       printNextRound();
     }
   };
-
+  
   printNextRound();
-
+  
   return { playRound, getCurrentPlayer, playerFactory, restart };
 }
 
-function inputController() {
+
+const inputController = (() => {
   const game = gameController();
 
   const display = displayController();
@@ -185,45 +227,5 @@ function inputController() {
   });
 
   display.htmlElement.btnRestart.addEventListener("click", game.restart);
-}
+})()
 
-function displayController() {
-  const htmlElement = {
-    cells: document.querySelectorAll("[data-row]"),
-    playerTurn: document.querySelector(".player"),
-    p1name: document.getElementById("name1"),
-    p2name: document.getElementById("name2"),
-    btnRestart: document.querySelector(".restart"),
-    btnStart: document.querySelector("[formmethod]"),
-    playUi: document.querySelector('.play'),
-    menuUi: document.querySelector('.menu')
-  };
-
-  const mark = (index, currentPlayer) => {
-    htmlElement.cells[index].innerText = `${currentPlayer.mark}`;
-  };
-
-  const turn = (currentPlayer) => {
-    htmlElement.playerTurn.innerText = `${currentPlayer.name}'s Turn (${currentPlayer.mark})`;
-  };
-
-  const restart = () => {
-    htmlElement.playUi.classList.add('invisible');
-    htmlElement.menuUi.classList.remove('invisible');
-    for (let cell of htmlElement.cells) {
-      cell.innerText = "";
-    }
-  };
-
-  const announceWinner = (currentPlayer) => {
-    htmlElement.playerTurn.innerText = `${currentPlayer.name} Won (${currentPlayer.mark})`;
-  };
-
-  const announceDraw = () => {
-    htmlElement.playerTurn.innerText = `It's a draw`;
-  };
-
-  return { htmlElement, mark, turn, restart, announceWinner, announceDraw };
-}
-
-inputController();
