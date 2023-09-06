@@ -17,6 +17,7 @@ body {
 
 header {
   background-color: var(--secondary-clr);
+  box-shadow: 0px 2px 5px black;
 }
 
 main {
@@ -29,6 +30,8 @@ main {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  box-shadow: 0px 0px 8px var(--secondary-clr);
+  border-radius: 1rem;
   width: 80%;
   height: 80vw;
   max-width: 300px;
@@ -76,6 +79,7 @@ button {
   border: none;
   border-radius: 1rem;
   margin: 2rem;
+  box-shadow: 0px 0px 8px var(--secondary-clr);
   color: white;
 }
 
