@@ -85,7 +85,7 @@ main {
   border-radius: 0 0 1rem 0;
 }
 
-.player {
+header p {
   font-size: clamp(1rem, 10vw, 1.9rem);
   font-weight: bold;
   text-align: center;
@@ -124,35 +124,33 @@ a:hover {
   color: var(--secondary-clr);
 }
 
-/* === Dialog === */
-
-dialog::backdrop {
-  background-color: var(--primary-clr);
+.invisible {
+  display: none;
 }
 
-dialog {
+/* === menu === */
+
+.menu form {
+  width: 80%;
+  max-width: 300px;
   margin: auto;
-  padding: 1rem;
-  border: none;
-  border-radius: 1rem;
-  background-color: var(--primary-clr);
 }
 
-dialog form label, dialog form button {
+.menu form label, .menu form button {
   display: block;
   margin: 1rem auto 5px;
   font-weight: 700;
 }
 
-dialog h1, dialog label {
+.menu h1, .menu label {
   color: white;
 } 
 
-dialog h1 {
+.menu h1 {
   font-size: 3rem;
 }
 
-dialog input {
+.menu input {
   width: 100%;
   padding: 5px 5px;
   border-radius: 5px;
