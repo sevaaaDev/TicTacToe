@@ -114,6 +114,16 @@ button {
   opacity: 0.8;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 700;
+}
+
+a:hover {
+  color: var(--secondary-clr);
+}
+
 /* === Dialog === */
 
 dialog::backdrop {
