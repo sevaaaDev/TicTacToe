@@ -180,6 +180,8 @@ function inputController() {
     display.htmlElement.cells.forEach(function (cell) {
       cell.addEventListener("click", addMark);
     });
+    display.htmlElement.menuUi.classList.add('invisible')
+    display.htmlElement.playUi.classList.remove('invisible')
   });
 
   display.htmlElement.btnRestart.addEventListener("click", game.restart);
@@ -194,6 +196,8 @@ function displayController() {
     p2name: document.getElementById("name2"),
     btnRestart: document.querySelector(".restart"),
     btnStart: document.querySelector("[formmethod]"),
+    playUi: document.querySelector('.play'),
+    menuUi: document.querySelector('.menu')
   };
 
   const mark = (index, currentPlayer) => {
@@ -205,7 +209,8 @@ function displayController() {
   };
 
   const restart = () => {
-    htmlElement.dialog.showModal();
+    htmlElement.playUi.classList.add('invisible');
+    htmlElement.menuUi.classList.remove('invisible');
     for (let cell of htmlElement.cells) {
       cell.innerText = "";
     }
@@ -218,8 +223,6 @@ function displayController() {
   const announceDraw = () => {
     htmlElement.playerTurn.innerText = `It's a draw`;
   };
-
-  window.onload = () => htmlElement.dialog.showModal();
 
   return { htmlElement, mark, turn, restart, announceWinner, announceDraw };
 }
