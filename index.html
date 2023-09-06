@@ -8,33 +8,40 @@
     <script src="script.js" defer></script>
   </head>
   <body>
-    <header>
-      <p class="player"></p>
-    </header>
-    <main>
-      <div class="gameboard">
-        <div data-row="0" data-col="0" data-index="0"></div>
-        <div data-row="0" data-col="1" data-index="1"></div>
-        <div data-row="0" data-col="2" data-index="2"></div>
-        <div data-row="1" data-col="0" data-index="3"></div>
-        <div data-row="1" data-col="1" data-index="4"></div>
-        <div data-row="1" data-col="2" data-index="5"></div>
-        <div data-row="2" data-col="0" data-index="6"></div>
-        <div data-row="2" data-col="1" data-index="7"></div>
-        <div data-row="2" data-col="2" data-index="8"></div>
-      </div>
-      <button type="button" class="restart">Restart</button>
-      <p><a href="https://github.com/sevaaaDev">sevaaaDev</a> | <a href="https://github.com/sevaaaDev/TicTacToe">source code</a></p>
-      <dialog>
-        <h1>Tic Tac Toe</h1>
-        <form>
-          <label for="name1">Player 1 Name</label>
-          <input type="text" name="p1" id="name1">
-          <label for="name2">Player 2 Name</label>
-          <input type="text" name="p2" id="name2">
-          <button type="submit" formmethod="dialog">Start</button>
-        </form>
-      </dialog>
-    </main>
+    <div class="play invisible">
+      <header>
+        <p class="player"></p>
+      </header>
+      <main>
+        <div class="gameboard">
+          <div data-row="0" data-col="0" data-index="0"></div>
+          <div data-row="0" data-col="1" data-index="1"></div>
+          <div data-row="0" data-col="2" data-index="2"></div>
+          <div data-row="1" data-col="0" data-index="3"></div>
+          <div data-row="1" data-col="1" data-index="4"></div>
+          <div data-row="1" data-col="2" data-index="5"></div>
+          <div data-row="2" data-col="0" data-index="6"></div>
+          <div data-row="2" data-col="1" data-index="7"></div>
+          <div data-row="2" data-col="2" data-index="8"></div>
+        </div>
+        <button type="button" class="restart">Restart</button>
+        <p>
+          <a href="https://github.com/sevaaaDev">sevaaaDev</a> |
+          <a href="https://github.com/sevaaaDev/TicTacToe">source code</a>
+        </p>
+    </div>
+    <div class="menu">
+      <header>
+        <p>Tic Tac Toe</p>
+      </header>
+      <form>
+        <label for="name1">Player 1 Name</label>
+        <input type="text" name="p1" id="name1">
+        <label for="name2">Player 2 Name</label>
+        <input type="text" name="p2" id="name2">
+        <button type="submit" formmethod="dialog">Start</button>
+      </form>
+      </main>
+    </div>
   </body>
 </html>
