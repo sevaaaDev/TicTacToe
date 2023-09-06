@@ -191,7 +191,6 @@ function displayController() {
   const htmlElement = {
     cells: document.querySelectorAll("[data-row]"),
     playerTurn: document.querySelector(".player"),
-    dialog: document.querySelector("dialog"),
     p1name: document.getElementById("name1"),
     p2name: document.getElementById("name2"),
     btnRestart: document.querySelector(".restart"),
