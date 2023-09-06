@@ -87,6 +87,10 @@ button {
   color: #FF715B;
 }
 
+.gameboard [data-index]:hover {
+  opacity: 0.8;
+}
+
 /* === Dialog === */
 
 dialog::backdrop {
