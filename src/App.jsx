@@ -3,10 +3,10 @@ import "./App.css";
 import { Board } from "./components/Board";
 import { CurrentPlayer } from "./components/CurrentPlayer";
 
-function Game() {
+function Game({ init = ["", "", "", "", "", "", "", "", ""] }) {
   const [currentPlayer, setCurrentPlayer] = useState("X");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [state, setState] = useState(Array(9).fill(""));
+  const [state, setState] = useState(init);
   function switchPlayer() {
     if (currentPlayer === "X") {
       setCurrentPlayer("O");
