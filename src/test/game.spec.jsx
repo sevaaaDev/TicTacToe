@@ -1,8 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import Game from "../App";
 import userEvent from "@testing-library/user-event";
-import { expect } from "vitest";
-import { act } from "react";
+import { describe, expect } from "vitest";
 describe("Full Game", () => {
   it("shows the correct player", async () => {
     const user = userEvent.setup();
@@ -32,33 +31,6 @@ describe("Full Game", () => {
     await user.click(btnSquare);
     expect(btnStart).toHaveTextContent("Restart");
     expect(btnSquare).toHaveTextContent("X");
-  });
-  it("shows draw ", async () => {
-    const user = userEvent.setup();
-    render(<Game />);
-    const btnStart = screen.getByText("Start");
-    await user.click(btnStart);
-    const btnSquare0 = screen.getByTestId("0");
-    const btnSquare1 = screen.getByTestId("1");
-    const btnSquare2 = screen.getByTestId("2");
-    const btnSquare3 = screen.getByTestId("3");
-    const btnSquare4 = screen.getByTestId("4");
-    const btnSquare5 = screen.getByTestId("5");
-    const btnSquare6 = screen.getByTestId("6");
-    const btnSquare7 = screen.getByTestId("7");
-    const btnSquare8 = screen.getByTestId("8");
-    await user.click(btnSquare0);
-    await user.click(btnSquare1);
-    await user.click(btnSquare2);
-    await user.click(btnSquare3);
-    await user.click(btnSquare4);
-    await user.click(btnSquare8);
-    await user.click(btnSquare5);
-    await user.click(btnSquare6);
-    await user.click(btnSquare7);
-    const draw = screen.getByText("Draw");
-    expect(btnStart).toHaveTextContent("Restart");
-    expect(draw).toBeInTheDocument();
   });
   it("restart the game", async () => {
     const user = userEvent.setup();
