@@ -1,6 +1,6 @@
 import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Square from "../components/Square.jsx";
+import { Square } from "../components/Square.jsx";
 import { expect } from "vitest";
 describe("square", () => {
   it("call the function given as prop when clicked", async () => {

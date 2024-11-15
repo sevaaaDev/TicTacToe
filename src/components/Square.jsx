@@ -1,9 +1,9 @@
-export default function Square({ onClick, value, id }) {
+export function Square({ onClick, value, id }) {
   function onclick() {
     onClick(id);
   }
   return (
-    <button disabled={value !== "" && true} onClick={onclick}>
+    <button disabled={value !== "" && true} onClick={onclick} data-testid={id}>
       {value}
     </button>
   );
