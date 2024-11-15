@@ -6,6 +6,7 @@ import { CurrentPlayer } from "./components/CurrentPlayer";
 function Game() {
   const [currentPlayer, setCurrentPlayer] = useState("X");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [state, setState] = useState(Array(9).fill(""));
   function switchPlayer() {
     if (currentPlayer === "X") {
       setCurrentPlayer("O");
@@ -13,13 +14,32 @@ function Game() {
     }
     setCurrentPlayer("X");
   }
-  // add select player option on start
+  function startGame() {
+    setIsPlaying(true);
+  }
+  function restart() {
+    setCurrentPlayer("X");
+    setIsPlaying(false);
+    setState(Array(9).fill(""));
+  }
+  // add select player option on start (later)
   // add btn to start
   // add btn to play again
   return (
     <div>
       {isPlaying && <CurrentPlayer currentPlayer={currentPlayer} />}
-      <Board currentPlayer={currentPlayer} switchPlayer={switchPlayer} />
+      <Board
+        state={state}
+        setState={setState}
+        currentPlayer={currentPlayer}
+        switchPlayer={switchPlayer}
+        isPlaying={isPlaying}
+      />
+      {isPlaying ? (
+        <button onClick={restart}>Restart</button>
+      ) : (
+        <button onClick={startGame}>Start</button>
+      )}
     </div>
   );
 }

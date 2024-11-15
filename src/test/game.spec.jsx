@@ -2,10 +2,13 @@ import { render, screen } from "@testing-library/react";
 import Game from "../App";
 import userEvent from "@testing-library/user-event";
 import { expect } from "vitest";
+import { act } from "react";
 describe("Full Game", () => {
   it("shows the correct player", async () => {
     const user = userEvent.setup();
     render(<Game />);
+    const btnStart = screen.getByText("Start");
+    await user.click(btnStart);
     let currentPlayer = screen.getByTestId("current-player");
     expect(currentPlayer).toHaveTextContent("X");
     const btn = screen.getByTestId("0");
@@ -13,8 +16,59 @@ describe("Full Game", () => {
     currentPlayer = screen.getByTestId("current-player");
     expect(currentPlayer).toHaveTextContent("O");
   });
-  it("shows select player option before start", async () => {
+  it("cant play before start the game", async () => {
     const user = userEvent.setup();
     render(<Game />);
+    const btn = screen.getByTestId("0");
+    await user.click(btn);
+    expect(btn).toBeEmptyDOMElement();
+  });
+  it("start the game after clicking the btn", async () => {
+    const user = userEvent.setup();
+    render(<Game />);
+    const btnStart = screen.getByText("Start");
+    const btnSquare = screen.getByTestId("0");
+    await user.click(btnStart);
+    await user.click(btnSquare);
+    expect(btnStart).toHaveTextContent("Restart");
+    expect(btnSquare).toHaveTextContent("X");
+  });
+  it("shows draw ", async () => {
+    const user = userEvent.setup();
+    render(<Game />);
+    const btnStart = screen.getByText("Start");
+    await user.click(btnStart);
+    const btnSquare0 = screen.getByTestId("0");
+    const btnSquare1 = screen.getByTestId("1");
+    const btnSquare2 = screen.getByTestId("2");
+    const btnSquare3 = screen.getByTestId("3");
+    const btnSquare4 = screen.getByTestId("4");
+    const btnSquare5 = screen.getByTestId("5");
+    const btnSquare6 = screen.getByTestId("6");
+    const btnSquare7 = screen.getByTestId("7");
+    const btnSquare8 = screen.getByTestId("8");
+    await user.click(btnSquare0);
+    await user.click(btnSquare1);
+    await user.click(btnSquare2);
+    await user.click(btnSquare3);
+    await user.click(btnSquare4);
+    await user.click(btnSquare8);
+    await user.click(btnSquare5);
+    await user.click(btnSquare6);
+    await user.click(btnSquare7);
+    const draw = screen.getByText("Draw");
+    expect(btnStart).toHaveTextContent("Restart");
+    expect(draw).toBeInTheDocument();
+  });
+  it("restart the game", async () => {
+    const user = userEvent.setup();
+    render(<Game />);
+    const btnStart = screen.getByText("Start");
+    await user.click(btnStart);
+    const btnSquare = screen.getByTestId("0");
+    await user.click(btnSquare);
+    expect(btnSquare).toHaveTextContent("X");
+    await user.click(btnStart);
+    expect(btnSquare).toBeEmptyDOMElement();
   });
 });
