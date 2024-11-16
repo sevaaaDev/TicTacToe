@@ -2,18 +2,17 @@ import { Square } from "./Square";
 import { checkWinner } from "../utils/checkWinner";
 import { checkDraw } from "../utils/checkDraw";
 
-const grid = {
-  display: "grid",
-  gridTemplateColumns: "repeat(3,1fr)",
-};
-
 export function Board({
   board,
   setBoard,
   currentPlayer,
   switchPlayer,
+  winnerCoordinate,
   isPlaying = true,
 }) {
+  if (winnerCoordinate === null) {
+    winnerCoordinate = [];
+  }
   function onSquareClick(id) {
     setBoard(
       board.map((el, index) => {
@@ -28,7 +27,7 @@ export function Board({
 
   return (
     <>
-      <div style={grid}>
+      <div className="grid">
         {board.map((_, i) => (
           <Square
             onClick={onSquareClick}
@@ -36,6 +35,7 @@ export function Board({
             id={i}
             disable={!isPlaying}
             key={i}
+            win={winnerCoordinate.includes(i)}
           />
         ))}
       </div>

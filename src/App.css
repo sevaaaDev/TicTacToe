@@ -1,42 +1,113 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./assets/nunito-v26-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  src: url("./assets/nunito-v26-latin-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+:root {
+  --clr-black: #211b11;
+  --clr-green: #55ad9b;
+  --clr-white: #f1f8e8;
+  --font: Nunito;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--clr-white);
+  background-color: var(--clr-black);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+p {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+button:not(.square) {
+  border: 2px solid var(--clr-white);
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+  font-size: 18px;
+  padding: 0.5em 1.5em;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+button:hover:not([disabled]) {
+  opacity: 0.6;
+  cursor: pointer;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button[disabled] {
+  cursor: not-allowed;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+#root {
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.card {
-  padding: 2em;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 500px;
+  margin-bottom: 2rem;
+}
+.square {
+  aspect-ratio: 1;
+  font-size: clamp(3rem, calc(3rem + ((1vw - 0.25rem) * 3.1579)), 6rem);
+  font-weight: 700;
+  font-family: var(--font);
+  color: var(--clr-white);
+  background-color: transparent;
+  border: 2px solid var(--clr-white);
+}
+.square.win {
+  color: var(--clr-green);
 }
 
-.read-the-docs {
-  color: #888;
+.square:nth-child(1),
+.square:nth-child(3),
+.square:nth-child(7),
+.square:nth-child(9) {
+  border: none;
+}
+.square:nth-child(2) {
+  border-top: none;
+  border-bottom: none;
+}
+.square:nth-child(8) {
+  border-top: none;
+  border-bottom: none;
+}
+.square:nth-child(4) {
+  border-left: none;
+  border-right: none;
+}
+.square:nth-child(6) {
+  border-right: none;
+  border-left: none;
+}
+
+/* TODO: change the classname */
+.current-player {
+  color: var(--clr-white);
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }

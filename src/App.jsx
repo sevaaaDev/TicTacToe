@@ -24,8 +24,8 @@ function Game({ init = ["", "", "", "", "", "", "", "", ""] }) {
     setIsPlaying(false);
     setBoard(Array(9).fill(""));
   }
-  let isGameOver = checkWinner(board);
-  let isWin = checkWinner(board);
+  let isGameOver;
+  let [isWin, coordinate] = checkWinner(board);
   if (isWin) {
     isGameOver = true;
   }
@@ -38,24 +38,36 @@ function Game({ init = ["", "", "", "", "", "", "", "", ""] }) {
   // add btn to start
   // add btn to play again
   return (
-    <div>
-      {isPlaying && !isGameOver && (
-        <CurrentPlayer currentPlayer={currentPlayer} />
-      )}
-      {isGameOver && (isWin ? <p>{isWin} WIN</p> : <p>Draw</p>)}
-      <Board
-        board={board}
-        setBoard={setBoard}
-        currentPlayer={currentPlayer}
-        switchPlayer={switchPlayer}
-        isPlaying={isPlaying && !isGameOver}
-      />
+    <>
+      <div className="board-wrapper">
+        {isPlaying && !isGameOver && (
+          <CurrentPlayer currentPlayer={currentPlayer} />
+        )}
+        {isGameOver && (
+          <p className="current-player">{isWin ? `${isWin} WIN` : "Draw"}</p>
+        )}
+        {!isPlaying && !isGameOver && (
+          <p className="current-player">Press Start to play</p>
+        )}
+        <Board
+          board={board}
+          setBoard={setBoard}
+          currentPlayer={currentPlayer}
+          switchPlayer={switchPlayer}
+          isPlaying={isPlaying && !isGameOver}
+          winnerCoordinate={coordinate}
+        />
+      </div>
       {isPlaying ? (
-        <button onClick={restart}>Restart</button>
+        <button className="control-btn" onClick={restart}>
+          Restart
+        </button>
       ) : (
-        <button onClick={startGame}>Start</button>
+        <button className="control-btn" onClick={startGame}>
+          Start
+        </button>
       )}
-    </div>
+    </>
   );
 }
 
